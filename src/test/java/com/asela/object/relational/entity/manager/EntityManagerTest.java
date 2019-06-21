@@ -1,5 +1,6 @@
 package com.asela.object.relational.entity.manager;
 
+import com.asela.object.relational.bean.BeanManager;
 import com.asela.object.relational.entity.Person;
 import com.asela.object.relational.entity.manager.EntityManger;
 import org.junit.Test;
@@ -11,7 +12,9 @@ public class EntityManagerTest {
     @Test
     public void entityMangerCreate() throws SQLException, IllegalAccessException {
 
-        EntityManger<Person> entityManger = EntityManger.of(Person.class);
+        BeanManager beanManager = BeanManager.getInstance();
+
+        EntityManger<Person> entityManger = beanManager.getInstance(ManagedEntityManager.class, Person.class);
 
         Person saman = new Person("Saman", 30);
         Person kamal = new Person("Kamal", 24);
@@ -34,7 +37,8 @@ public class EntityManagerTest {
     @Test
     public void entityManagerFind() throws Exception {
 
-        EntityManger<Person> entityManger = EntityManger.of(Person.class);
+        BeanManager beanManager = BeanManager.getInstance();
+        EntityManger<Person> entityManger = beanManager.getInstance(ManagedEntityManager.class, Person.class);
 
         Person person = entityManger.find(20);
 

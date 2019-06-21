@@ -1,15 +1,15 @@
-package com.asela.object.relational.entity.manager;
+package com.asela.object.relational.provider;
 
+import com.asela.object.relational.anno.Provides;
+
+import javax.xml.ws.WebServiceProvider;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class H2EntityManager<T> extends AbstractEntityManger<T> {
+public class H2ConnectionProvider {
 
-    public H2EntityManager(Class<T> clss) {
-        super(clss);
-    }
-
+    @Provides
     protected Connection getConnection() throws SQLException {
         return DriverManager.getConnection(
                 "jdbc:h2:/Users/asela/Workspace/github/object-relational-mapper/db-files/db-persons",

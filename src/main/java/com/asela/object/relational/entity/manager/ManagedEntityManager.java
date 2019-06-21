@@ -1,5 +1,6 @@
 package com.asela.object.relational.entity.manager;
 
+import com.asela.object.relational.anno.Inject;
 import com.asela.object.relational.meta.ColumnField;
 import com.asela.object.relational.meta.MetaModel;
 
@@ -12,14 +13,17 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public  abstract class AbstractEntityManger<T> implements EntityManger<T> {
+public class ManagedEntityManager<T> implements EntityManger<T> {
 
 
     private AtomicInteger idGen = new AtomicInteger(20);
 
     private Class<T> clss;
 
-     AbstractEntityManger(Class<T> clss) {
+    @Inject
+    private Connection connection;
+
+     ManagedEntityManager(Class<T> clss) {
         this.clss = clss;
     }
 
@@ -92,12 +96,10 @@ public  abstract class AbstractEntityManger<T> implements EntityManger<T> {
     }
 
     private PreparedStatementWrapper prepareStatement(String sql) throws SQLException {
-        Connection connection = getConnection();
+
         PreparedStatement statement = connection.prepareStatement(sql);
         return  new PreparedStatementWrapper(statement);
     }
-
-    protected abstract Connection getConnection() throws SQLException;
 
     private class PreparedStatementWrapper {
         PreparedStatement statement;
